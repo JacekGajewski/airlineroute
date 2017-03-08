@@ -10,12 +10,19 @@ import java.util.LinkedList;
  */
 public class CustomLinkedList<T> extends AbstractCustomListAdapter<T> {
 
-    LinkedList linkedList = new LinkedList();
+    LinkedList<T> linkedList = new LinkedList<>();
 
     @Override
     public int size() {
 
-        return linkedList.size();
+        if(linkedList.size()>Integer.MAX_VALUE){
+            return Integer.MAX_VALUE;
+        }
+
+        else{
+
+            return linkedList.size();
+        }
     }
 
     @Override
@@ -32,8 +39,8 @@ public class CustomLinkedList<T> extends AbstractCustomListAdapter<T> {
 
     @Override
     public Iterator<T> iterator() {
-        /* (TODO Lab No. 1) Please introduce a sensible implementation */
-        return new CustomLinkedListIterator<>();
+
+        return new CustomLinkedListIterator<>().it;
     }
 
     @Override
@@ -61,7 +68,7 @@ public class CustomLinkedList<T> extends AbstractCustomListAdapter<T> {
     @Override
     public T get(int index) {
 
-        return (T) linkedList.get(index);
+        return linkedList.get(index);
     }
 
     @Override
@@ -99,7 +106,7 @@ public class CustomLinkedList<T> extends AbstractCustomListAdapter<T> {
      */
     private class CustomLinkedListIterator<E> implements Iterator<E> {
 
-        Iterator<E> it = linkedList.iterator();
+        Iterator it = linkedList.iterator();
 
         @Override
         public boolean hasNext() {
@@ -110,7 +117,7 @@ public class CustomLinkedList<T> extends AbstractCustomListAdapter<T> {
         @Override
         public E next() {
 
-            return it.next();
+            return (E)it.next();
         }
 
         @Override

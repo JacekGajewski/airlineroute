@@ -11,14 +11,16 @@ import java.util.Iterator;
  */
 public class CustomArrayList<T> extends AbstractCustomListAdapter<T> {
 
-    ArrayList arrayList = new ArrayList();
+    ArrayList<T> arrayList;
 
     public CustomArrayList() {
+
+        arrayList = new ArrayList<>();
     }
 
     public CustomArrayList(int initialCapacity) {
 
-        ArrayList arrayList = new ArrayList(initialCapacity);
+        arrayList = new ArrayList<>(initialCapacity);
     }
 
     @Override
@@ -49,7 +51,7 @@ public class CustomArrayList<T> extends AbstractCustomListAdapter<T> {
     @Override
     public Iterator<T> iterator() {
 
-        return (Iterator<T>) new CustomArrayListIterator<>().iter;
+        return new CustomArrayListIterator<>().it;
     }
 
     @Override
@@ -79,7 +81,7 @@ public class CustomArrayList<T> extends AbstractCustomListAdapter<T> {
     @Override
     public T get(int index) {
 
-        return (T)arrayList.get(index);
+        return arrayList.get(index);
     }
 
     @Override
@@ -116,22 +118,23 @@ public class CustomArrayList<T> extends AbstractCustomListAdapter<T> {
      */
     private class CustomArrayListIterator<E> implements Iterator<E> {
 
-        Iterator<E> iter = arrayList.iterator();
+        Iterator it = arrayList.iterator();
 
         @Override
-        public boolean hasNext() {
-            return iter.hasNext();
+        public boolean hasNext()
+        {
+            return it.hasNext();
         }
 
         @Override
         public E next() {
 
-            return iter.next();
+            return (E) it.next();
         }
 
         @Override
         public void remove() {
-             iter.remove();
+             it.remove();
         }
     }
 }

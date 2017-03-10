@@ -7,11 +7,11 @@ package com.asid.algorithms.entity;
  */
 public class Airport {
     private String iataCode;
-    private long latitude;
-    private long longitude;
+    private double latitude;
+    private double longitude;
     private String name;
 
-    public Airport(String iataCode, long latitude, long longitude, String name) {
+    public Airport(String iataCode, double latitude, double longitude, String name) {
         this.iataCode = iataCode;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -29,7 +29,7 @@ public class Airport {
         this.iataCode = iataCode;
     }
 
-    public long getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
@@ -37,7 +37,7 @@ public class Airport {
         this.latitude = latitude;
     }
 
-    public long getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 

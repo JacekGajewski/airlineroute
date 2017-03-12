@@ -1,6 +1,7 @@
 package com.asid.foundation.datastructure.list;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 
 
@@ -11,105 +12,142 @@ import java.util.Iterator;
  */
 public class CustomArrayList<T> extends AbstractCustomListAdapter<T> {
 
-    ArrayList<T> arrayList;
+    private static final int DEFAULT_CAPACITY = 10;
+
+    Object[] array;
+    int size;
 
     public CustomArrayList() {
-
-        arrayList = new ArrayList<>();
+        array = new Object[DEFAULT_CAPACITY];
+        size = 0;
     }
 
     public CustomArrayList(int initialCapacity) {
-
-        arrayList = new ArrayList<>(initialCapacity);
+        array = new Object[initialCapacity];
+        size = 0;
     }
 
     @Override
     public int size() {
-
-        if(arrayList.size()>Integer.MAX_VALUE){
-            return Integer.MAX_VALUE;
-        }
-
-        else{
-
-            return arrayList.size();
-        }
+        return size;
     }
-
     @Override
     public boolean isEmpty() {
-
-        return arrayList.isEmpty();
-        }
+        return size > 0 ? false : true;
+    }
 
     public boolean contains(Object o) {
-
-        return arrayList.contains(o);
-
+        for (Object object : array) {
+            if (o.equals(object)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
     public Iterator<T> iterator() {
-
-        return new CustomArrayListIterator<>().it;
+        Iterator<T> iterator = new CustomArrayListIterator<>(array, size);
+        return  iterator;
     }
 
     @Override
     public boolean add(T t) {
-
-        arrayList.add(t);
+        resizeUp();
+        array[size++] = t;
         return true;
     }
 
     @Override
     public boolean remove(Object o) {
-        if(arrayList.contains(o)) {
-            arrayList.remove(o);
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
+        resizeDown();
 
+        for (Object object : array) {
+            if (o.equals(object)) {
+                remove(indexOf(o));
+                return true;
+            }
+        }
+        return false;
+    }
     @Override
     public void clear() {
-
-        arrayList.clear();
+        array = new Object[DEFAULT_CAPACITY];
+        size = 0;
     }
 
     @Override
     public T get(int index) {
-
-        return arrayList.get(index);
+        return (T) array[index];
     }
 
     @Override
     public T set(int index, T element) {
-        T prev = (T)arrayList.get(index);
-        arrayList.set(index, element);
-        return prev;
+        if(index>= size)
+            throw new IndexOutOfBoundsException();
+        T prev = (T) array[index];
+        array[index] = element;
+        return  prev;
     }
 
     @Override
     public void add(int index, T element) {
+        size++;
+        resizeUp();
+        addRecursive(index, element);
+    }
 
-        arrayList.add(index, element);
+    private void addRecursive(int index, T element) {
+        T prev = (T) array[index];
+        array[index] = element;
+        if(index +1 < size)
+        addRecursive(index+1, prev);
     }
 
     @Override
     public T remove(int index) {
-        T prev = (T)arrayList.get(index);
-        arrayList.remove(index);
+        if(index>= size)
+            throw new IndexOutOfBoundsException();
+        T prev = (T)array[index];
+        while(index+1 < size) {
+            array[index] = array[index + 1];
+            index++;
+        }
+        size--;
+        resizeDown();
         return prev;
     }
 
      public int indexOf(Object o) {
-        if(arrayList.contains(o)) {
-            return arrayList.indexOf(o);
+        int index = -1;
+         for(int i = 0 ; i < size; i++) {
+            if(array[i].equals(o)) {
+                index = i;
+                break;
+            }
         }
-        else{
-            return -1;
+        return index;
+    }
+
+    private void resizeUp() {
+        Object[] newArray;
+        if(array.length*0.9 <= size()){
+            newArray = new Object[array.length*2];
+            for(int i = 0; i < size(); i++){
+                newArray[i] = array[i];
+            }
+            array = newArray;
+        }
+    }
+
+    private void resizeDown(){
+        Object[] newArray;
+        if(array.length*0.6>size()){
+            newArray = new Object[(array.length/3)*2];
+            for(int i = 0; i < size(); i++){
+                newArray[i] = array[i];
+            }
+            array = newArray;
         }
     }
 
@@ -118,23 +156,34 @@ public class CustomArrayList<T> extends AbstractCustomListAdapter<T> {
      */
     private class CustomArrayListIterator<E> implements Iterator<E> {
 
-        Iterator it = arrayList.iterator();
+        private int size;
+        private Object[] arr;
+        private int index;
+
+        public CustomArrayListIterator(Object[] arr, int size) {
+            this.size = size;
+            this.arr = arr;
+            index = 0;
+        }
 
         @Override
         public boolean hasNext()
         {
-            return it.hasNext();
+            return index < size - 1 ? true : false;
         }
 
         @Override
         public E next() {
-
-            return (E) it.next();
+            return (E) arr[index++];
         }
 
         @Override
         public void remove() {
-             it.remove();
+            while(index+1 < size) {
+                arr[index] = arr[index + 1];
+                index++;
+            }
+            size--;
         }
     }
 }

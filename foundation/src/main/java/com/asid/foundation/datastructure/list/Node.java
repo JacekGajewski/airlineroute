@@ -3,32 +3,38 @@ package com.asid.foundation.datastructure.list;
 /**
  * Component of linked list that stores a value and reference to the next element.
  */
-public class Node {
+public class Node<T> {
 
-    private Node next;
-    private Object data;
+    public Node<T> next;
+    public T data;
 
-    public Node(Object data){
+    public Node(T data){
         this.data = data;
         this.next = null;
     }
 
-    public Node(Object data, Node next){
+    public Node(T data, Node next){
         this.data = data;
         this.next = next;
     }
 
-    public Object getData(){
+
+
+    public T getData(){
         return data;
     }
     public Node getNext(){
         return next;
     }
-    public void setData(Object data){
+    public void setData(T data){
         this.data = data;
     }
     public void setNext(Node next){
         this.next = next;
+    }
+
+    public void addFirst(T item){
+
     }
 
 }

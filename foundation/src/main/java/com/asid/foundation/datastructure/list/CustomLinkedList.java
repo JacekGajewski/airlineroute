@@ -1,128 +1,191 @@
+
 package com.asid.foundation.datastructure.list;
 
 import java.util.Iterator;
-import java.util.LinkedList;
+
 
 /**
  * List based on recursively related objects
  *
  * @param <T>
  */
+
 public class CustomLinkedList<T> extends AbstractCustomListAdapter<T> {
 
-    LinkedList<T> linkedList = new LinkedList<>();
+    private Node<T> head;
+    private int size;
+
+
+    public CustomLinkedList(){
+        head = null;
+        size = 0;
+    }
 
     @Override
     public int size() {
-
-        if(linkedList.size()>Integer.MAX_VALUE){
-            return Integer.MAX_VALUE;
-        }
-
-        else{
-
-            return linkedList.size();
-        }
+        return  size;
     }
 
     @Override
     public boolean isEmpty() {
 
-        return linkedList.isEmpty();
+        return size == 0;
     }
 
     @Override
     public boolean contains(Object o) {
-
-        return linkedList.contains(o);
+        Node<T> tmp = head;
+        for(int i = 0; i<size; i++){
+            if(tmp.data.equals(o)){
+                return true;
+            }
+            tmp = tmp.next;
+        }
+        return false;
     }
 
     @Override
     public Iterator<T> iterator() {
 
-        return new CustomLinkedListIterator<>().it;
+        return new CustomLinkedListIterator<>();
     }
 
     @Override
     public boolean add(T t) {
-        linkedList.add(t);
+        if(head == null){
+            addFirst(t);
+        }else{
+            Node<T> tmp = head;
+            while(tmp.next != null){
+                tmp=tmp.next;
+            }
+            tmp.next = new Node<T>(t, null);
+        }
+            size++;
         return true;
+    }
+    public void addFirst(T t){
+        head = new Node<T>(t, head);
     }
 
     @Override
     public boolean remove(Object o) {
-        if(linkedList.contains(o)){
-            linkedList.remove(o);
-            return true;
+        if(contains(o)) {
+
+            Node<T> tmp = head;
+            for (int i = 0; i < size; i++) {
+                if (o.equals(tmp.next.data)) {
+                    tmp.next = tmp.next.next;
+                    size--;
+                    return true;
+                }
+                tmp = tmp.next;
+            }
         }
-        else {
-            return false;
-        }
+        return false;
     }
 
     @Override
     public void clear() {
-        linkedList.clear();
+
+        head.next = null;
+        size = 0;
+
     }
 
     @Override
     public T get(int index) {
-
-        return linkedList.get(index);
+        Node<T> tmp = head;
+        for(int i = 0; i<index; i++){
+            tmp = tmp.next;
+        }
+        return  tmp.data;
     }
 
     @Override
     public T set(int index, T element) {
-        T prev = (T)linkedList.get(index);
-        linkedList.set(index, element);
-        return prev;
+        if(index>= size)
+            throw new IndexOutOfBoundsException();
+        Node<T> tmp = head;
+        for(int i = 0; i<index; i++){
+            tmp = tmp.next;
+        }
+        Node<T> prev = tmp;
+        tmp.data = element;
+        return (T) prev;
     }
 
     @Override
     public void add(int index, T element) {
+        Node<T> tmp = head;
+        for (int i = 0; i<(index-1); i++){
+            tmp = tmp.next;
+        }
+        Node<T> cos = new Node(element, tmp.next);
+        tmp.next = cos;
+        size++;
 
-        linkedList.add(index, element);
     }
 
     @Override
     public T remove(int index) {
-        T prev = (T)linkedList.get(index);
-        linkedList.remove(index);
-        return prev;
+        if(index>= size)
+            throw new IndexOutOfBoundsException();
+        Node<T> tmp = head;
+
+        for(int i = 0; i < (index-1); i++){
+            tmp = tmp.next;
+        }
+        Node<T> prev = tmp.next;
+        tmp.next = tmp.next.next;
+        size--;
+        return  prev.data;
     }
 
     @Override
     public int indexOf(Object o) {
-        if(linkedList.contains(o)){
-            return linkedList.indexOf(o);
+        if(contains(o)) {
+            Node<T> tmp = head;
+            for (int i = 0; i < size; i++) {
+                if(tmp.equals(o)){
+                    return i;
+                }
+                tmp = tmp.next;
+            }
         }
-        else{
             return -1;
-        }
     }
 
-    /**
-     * Iterator for CustomLinkedList
-     */
+     //* Iterator for CustomLinkedList
+
+
     private class CustomLinkedListIterator<E> implements Iterator<E> {
 
-        Iterator it = linkedList.iterator();
+        private Node<T> nextNode;
+
+        public CustomLinkedListIterator(){
+            nextNode = head;
+        }
 
         @Override
         public boolean hasNext() {
 
-            return it.hasNext();
+            return nextNode != null;
+
         }
 
         @Override
         public E next() {
 
-            return (E)it.next();
+            T nex = nextNode.data;
+            nextNode = nextNode.next;
+            return  (E) nex;
         }
 
         @Override
         public void remove() {
-              it.remove();
+
         }
     }
 }
+

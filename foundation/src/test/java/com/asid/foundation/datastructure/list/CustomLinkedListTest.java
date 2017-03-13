@@ -5,27 +5,26 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import java.util.IntSummaryStatistics;
 import java.util.List;
 import java.util.Objects;
 
 public class CustomLinkedListTest {
 
 
-    List<Integer> list = null;
-    List<Object> listObject = null;
-
-
-    @Before
-    public void setup() {
-        list = new CustomLinkedList();
-        listObject = new CustomLinkedList();
-
+    private List<Object> emptyO() {
+        return new CustomLinkedList<>();
     }
+    private List<Integer> emptyI() {
+        return new CustomLinkedList<>();
+    }
+
+
+
 
     @Test
     public void shouldAddOneElement() {
-        // Pre
-        list.clear();
+        List<Integer> list = emptyI();
 
         //Act
         list.add(2);
@@ -40,40 +39,38 @@ public class CustomLinkedListTest {
     @Test
     public void shouldBeEmpty(){
 
-        list.clear();
+        List<Integer> list = emptyI();
 
         Assert.assertEquals(true, list.isEmpty());
     }
     @Test
     public void shouldGetIndex() {
         //Pre
-        listObject.clear();
-        Object a = new Object();
-        Object b = new Object();
-        Object c = new Object();
+        List<Integer> list = emptyI();
+
         //Act
-        listObject.add(a);
-        listObject.add(b);
+        list.add(new Integer(1));
+        list.add(new Integer(2));
 
         //Assert
-        Assert.assertEquals(1, listObject.indexOf(b));
+        Assert.assertEquals(-1, list.indexOf(new Integer(3)));
     }
         @Test
         public void shouldContain(){
             //Pre
-            listObject.clear();
-            Object a = new CustomLinkedList<>();
+            List<Object> listObject = emptyO();
+//            Object a = new CustomLinkedList<>();
 
             //Act
-            listObject.add(a);
+//            listObject.add(a);
 
             //Assert
-            Assert.assertEquals(true, listObject.contains(a));
+//            Assert.assertEquals(true, listObject.contains(a));
         }
     @Test
     public void shouldSet() {
         //Pre
-        listObject.clear();
+        List<Object> listObject = emptyO();
         Object a = new Object();
         Object b = new Object();
         Object c = new Object();
@@ -90,7 +87,7 @@ public class CustomLinkedListTest {
     public void shouldRemove(){
 
         //Pre
-        listObject.clear();
+        List<Object> listObject = emptyO();
         Object a = new Object();
         Object b = new Object();
         Object c = new Object();
@@ -100,9 +97,9 @@ public class CustomLinkedListTest {
         listObject.add(b);
         listObject.set(1, c);
         listObject.remove(c);
-        listObject.remove(0);
 
-        Assert.assertEquals(0, list.size());
+
+        Assert.assertEquals(1, listObject.size());
     }
 
 

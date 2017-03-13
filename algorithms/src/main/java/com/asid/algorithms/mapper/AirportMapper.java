@@ -14,8 +14,8 @@ public class AirportMapper {
             target = new Airport();
             target.setIataCode(source.getIataCode());
             target.setName(source.getName());
-            target.setLatitude(source.getLatitude());
-            target.setLongitude(source.getLongitude());
+            target.setLatitude((long) source.getLatitude());
+            target.setLongitude((long) source.getLongitude());
         }
         return target;
     }

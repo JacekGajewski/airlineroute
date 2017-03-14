@@ -3,6 +3,7 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/algorithms" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/algorithms/resources/airlines.dat" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/apps" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/foundation" charset="UTF-8" />
   </component>

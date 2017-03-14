@@ -74,10 +74,17 @@ public class CustomLinkedList<T> extends AbstractCustomListAdapter<T> {
 
             Node<T> tmp = head;
             for (int i = 0; i < size; i++) {
-                if (o.equals(tmp.next.data)) {
-                    tmp.next = tmp.next.next;
-                    size--;
-                    return true;
+                if (o.equals(tmp.data)) {
+                    if(tmp.next == null){
+                        tmp = null;
+                        size--;
+                        return true;
+                    }else {
+                        tmp.data = tmp.next.data;
+                        tmp.next = tmp.next.next;
+                        size--;
+                        return true;
+                    }
                 }
                 tmp = tmp.next;
             }
@@ -88,7 +95,7 @@ public class CustomLinkedList<T> extends AbstractCustomListAdapter<T> {
     @Override
     public void clear() {
 
-        head.next = null;
+        head = null;
         size = 0;
 
     }

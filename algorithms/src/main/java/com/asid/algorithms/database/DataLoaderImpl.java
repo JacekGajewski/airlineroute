@@ -73,7 +73,7 @@ public class DataLoaderImpl implements DataLoader {
                     if (line.startsWith("#")) {
                         continue;
                     }
-                    for (Airline o : InmemmoryDataBase.getInstance().getAirlines()) {//przydałoby się zakończyć
+                    for (Airline o : InmemmoryDataBase.getInstance().getAirlines()) {
                         if (o.getCode().equals(line.substring(0, 2))) {
                             name1 = o.getName();
                         }
@@ -84,7 +84,7 @@ public class DataLoaderImpl implements DataLoader {
                     double a1 = 0;
                     double a2 = 0;
                     String a3 = null;
-                    for (Airport o : InmemmoryDataBase.getInstance().getAirports()) {//przydałoby się zakończyć
+                    for (Airport o : InmemmoryDataBase.getInstance().getAirports()) {
                         if (o.getIataCode().equals(line.substring(3, 6))) {
                             a1 = o.getLatitude();
                             a2 = o.getLongitude();
@@ -97,7 +97,7 @@ public class DataLoaderImpl implements DataLoader {
                     double a4 = 0;
                     double a5 = 0;
                     String a6 = null;
-                    for (Airport o : InmemmoryDataBase.getInstance().getAirports()) {//przydałoby się zakończyć
+                    for (Airport o : InmemmoryDataBase.getInstance().getAirports()) {
                         if (o.getIataCode().equals(line.substring(7, 10))) {
                             a4 = o.getLatitude();
                             a5 = o.getLongitude();

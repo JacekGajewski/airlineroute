@@ -19,7 +19,7 @@ public class DataLoaderImpl implements DataLoader {
         try{
             CustomLinkedList<Airport> list = new CustomLinkedList<>();
             InmemmoryDataBase.getInstance().setAirports(list);
-            Scanner scanner = new Scanner(new File(pathToFile));
+            Scanner scanner = new Scanner(new File(pathToFile), "Cp852");
 
             while(scanner.hasNext()){
                 String line = scanner.nextLine();

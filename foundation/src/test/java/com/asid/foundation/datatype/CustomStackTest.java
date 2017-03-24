@@ -1,6 +1,7 @@
 package com.asid.foundation.datatype;
 
 import com.asid.foundation.datastructure.list.CustomArrayList;
+import com.asid.foundation.datastructure.list.CustomLinkedList;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -17,11 +18,10 @@ public class CustomStackTest {
 
     @Before
     public void setup() throws Exception {
-        stack = new CustomStack(new CustomArrayList());
+        stack = new CustomStack(new CustomLinkedList());
     }
 
     @Test
-    @Ignore /* remove this line and write other tests. */
     public void shouldAddToStackSomeNumbers() {
         // Act
         stack.push(1);

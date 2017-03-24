@@ -1,5 +1,8 @@
 package com.asid.foundation.datatype;
 
+import com.asid.foundation.datastructure.list.CustomLinkedList;
+
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -8,38 +11,44 @@ import java.util.List;
 public class CustomQueue<T> extends AbstractCustomQueueAdapter<T> {
     List<T> storage = null;
 
-    /* (TODO Lab No. 2) Please introduce a sensible implementation */
     public CustomQueue(List<T> storage) {
         this.storage = storage;
     }
     
     @Override
     public int size() {
-          /* (TODO Lab No. 2) Please introduce a sensible implementation */
-        return 0;
+        return storage.size();
     }
 
     @Override
     public boolean isEmpty() {
-          /* (TODO Lab No. 2) Please introduce a sensible implementation */
-        return false;
+        return size() == 0;
     }
 
     @Override
     public boolean add(T t) {
-          /* (TODO Lab No. 2) Please introduce a sensible implementation */
+          storage.add(t);
         return false;
     }
 
     @Override
     public T poll() {
-          /* (TODO Lab No. 2) Please introduce a sensible implementation */
-        return null;
+        if(isEmpty()){
+            return null;
+        }else{
+        T t = storage.get(0);
+        storage.remove(0);
+        return t;
+        }
     }
 
     @Override
     public T peek() {
-          /* (TODO Lab No. 2) Please introduce a sensible implementation */
-        return null;
+        if(isEmpty()){
+            return null;
+        }else{
+            return storage.get(0);
+        }
+
     }
 }

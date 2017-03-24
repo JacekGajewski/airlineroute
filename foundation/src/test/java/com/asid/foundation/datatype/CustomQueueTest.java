@@ -1,6 +1,7 @@
 package com.asid.foundation.datatype;
 
 import com.asid.foundation.datastructure.list.CustomArrayList;
+import com.asid.foundation.datastructure.list.CustomLinkedList;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -16,11 +17,11 @@ public class CustomQueueTest {
 
     @Before
     public void setUp() throws Exception {
-        queue = new CustomQueue(new CustomArrayList());
+        queue = new CustomQueue(new CustomLinkedList());
     }
 
     @Test
-    @Ignore /* remove this line and write other tests. */
+
     public void shouldAddToQueueSomeNumbers() {
         // Act
         queue.add(1);

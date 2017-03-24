@@ -71,14 +71,14 @@ public class InfixNotationCalculatorImpl implements InfixNotationCalculator {
         }
     }
 
-    public double count(List<Object> postfix) {
+    public double count(List<Object> eqation) {
 
         Stack<Double> stack = new Stack<>();
 
         double a = 0;
         double b = 0;
 
-        for (Object s : postfix) {
+        for (Object s : eqation) {
             if(s instanceof Character){
                 char c = (Character) s;
                 b = stack.pop();

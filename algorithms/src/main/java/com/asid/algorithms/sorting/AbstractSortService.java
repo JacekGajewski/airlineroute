@@ -1,6 +1,7 @@
 package com.asid.algorithms.sorting;
 
 
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -16,8 +17,8 @@ public abstract class AbstractSortService {
      * @return
      */
     protected static <T> boolean less(T o1, T o2, Comparator<? super T> comparator) {
-        /* (TODO Lab No. 3) Please introduce a sensible implementation */
-        return false;
+
+        return comparator.compare(o1,o2) < 0;
     }
 
     /**
@@ -28,7 +29,13 @@ public abstract class AbstractSortService {
      * @param o2Pos
      */
     protected static <T> void exch(List<T> list, int o1Pos, int o2Pos) {
-        /* (TODO Lab No. 3) Please introduce a sensible implementation */
+
+        T a = list.get(o1Pos);
+        T b = list.get(o2Pos);
+
+        list.set(o1Pos, b);
+        list.set(o2Pos, a);
+
     }
 
     /**
@@ -39,6 +46,12 @@ public abstract class AbstractSortService {
      * @param o2
      */
     protected static <T> void exch(List<T> list, Object o1, Object o2) {
-        /* (TODO Lab No. 3) Please introduce a sensible implementation */
+
+        int a = list.indexOf(o1);
+        int b = list.indexOf(o2);
+
+        list.set(a,(T) o2);
+        list.set(b,(T) o1);
+
     }
 }

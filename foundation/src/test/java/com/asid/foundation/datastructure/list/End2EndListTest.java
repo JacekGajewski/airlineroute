@@ -12,7 +12,7 @@ import static org.junit.Assert.*;
  */
 public class End2EndListTest {
     private List<Integer> createEmptyList() {
-        return new CustomArrayList<>();
+        return new CustomLinkedList<>();
     }
 
     @Test

@@ -11,7 +11,10 @@ import java.util.List;
 public class SelectionSortService extends AbstractSortService {
 
     public static <T> SortResultDs<T> sort(List<T> list, Comparator<? super T> comparator) {
-          /* (TODO Lab No. 3) Please introduce a sensible implementation */
+
+
+
+
         throw new UnsupportedOperationException(StandardMessages.METHOD_NOT_IMPLEMENTED);
     }
 }

@@ -65,7 +65,14 @@ public class CustomLinkedList<T> extends AbstractCustomListAdapter<T> {
         return true;
     }
     public void addFirst(T t){
-        head = new Node<T>(t, head);
+
+        if(size() == 0) {
+            head = new Node<>(t, head);
+        }else{
+            Node<T> temp = head;
+            head.data = t;
+            head.next = temp;
+        }
     }
 
     @Override
@@ -139,6 +146,13 @@ public class CustomLinkedList<T> extends AbstractCustomListAdapter<T> {
         if(index>= size)
             throw new IndexOutOfBoundsException();
         Node<T> tmp = head;
+
+        if(index == 0){
+            Node<T> prev = tmp;
+            head = tmp.next;
+            size--;
+            return prev.data;
+        }
 
         for(int i = 0; i < (index-1); i++){
             tmp = tmp.next;

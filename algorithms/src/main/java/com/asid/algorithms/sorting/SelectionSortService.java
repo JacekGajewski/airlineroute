@@ -16,13 +16,17 @@ public class SelectionSortService extends AbstractSortService {
         long startTime = System.currentTimeMillis();
         SortResultDs<T> resultDs = new SortResultDs<>();
         List<T> temp = new ArrayList<>();
-        T sth = list.get(0);
-        for(int i = 0; i<list.size(); i++) {
+        T sth;
+        int listLength = list.size();
+        for(int i = 0; i<listLength; i++) {
+            sth = list.get(0);
             for (T t : list) {
-                if (comparator.compare(t, sth) == 1) {
+                if (comparator.compare(t, sth) == -1 ||
+                        comparator.compare(t, sth) == 0) {
                     sth = t;
                 }
             }
+            list.remove(sth);
             temp.add(i, sth);
         }
         long stopTime = System.currentTimeMillis();

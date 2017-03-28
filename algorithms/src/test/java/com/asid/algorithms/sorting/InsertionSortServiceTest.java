@@ -39,6 +39,7 @@ public class InsertionSortServiceTest {
 
         Assert.assertEquals(6, sortResultDs.getResult().size());
         Assert.assertEquals(4, sortResultDs.getResult().indexOf(9));
+        Assert.assertEquals(-27, sortResultDs.getResult().get(0));
         Assert.assertTrue(sortResultDs.getResult().contains(-27));
 
 

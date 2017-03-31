@@ -54,8 +54,7 @@ public class MergeSortService extends AbstractSortService {
         int i = 0;
         int j = 0;
         while(i < leftList.size() && j < rightList.size()){
-            if(comparator.compare(leftList.get(i), rightList.get(j)) == 1 ||
-                    comparator.compare(leftList.get(i), rightList.get(j)) == 0){
+            if(comparator.compare(leftList.get(i), rightList.get(j)) != -1){
                 result.add(rightList.get(j));
                 j++;
             }else{

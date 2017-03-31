@@ -15,18 +15,18 @@ public class SelectionSortService extends AbstractSortService {
 
         long startTime = System.currentTimeMillis();
         SortResultDs<T> resultDs = new SortResultDs<>();
+        List<T> list2 = list;
         List<T> temp = new ArrayList<>();
         T sth;
-        int listLength = list.size();
+        int listLength = list2.size();
         for(int i = 0; i<listLength; i++) {
-            sth = list.get(0);
-            for (T t : list) {
-                if (comparator.compare(t, sth) == -1 ||
-                        comparator.compare(t, sth) == 0) {
+            sth = list2.get(0);
+            for (T t : list2) {
+                if (comparator.compare(t, sth) != 1) {
                     sth = t;
                 }
             }
-            list.remove(sth);
+            list2.remove(sth);
             temp.add(i, sth);
         }
         long stopTime = System.currentTimeMillis();

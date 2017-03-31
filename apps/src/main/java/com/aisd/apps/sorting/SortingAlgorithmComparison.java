@@ -70,9 +70,6 @@ public class SortingAlgorithmComparison {
         System.out.println("SelectionSort: " + selectionSort4.getEstimatedTime());
 
     }
-
-
-
     public static List<Route> getTarget(){
 
         DataLoader loader = new DataLoaderImpl();

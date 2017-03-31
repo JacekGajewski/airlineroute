@@ -5,10 +5,7 @@ import com.asid.algorithms.database.DataLoaderImpl;
 import com.asid.algorithms.database.InmemmoryDataBase;
 import com.asid.algorithms.entity.Route;
 import com.asid.algorithms.mapper.RouteMapper;
-import com.asid.algorithms.sorting.InsertionSortService;
-import com.asid.algorithms.sorting.MergeSortService;
-import com.asid.algorithms.sorting.SelectionSortService;
-import com.asid.algorithms.sorting.SortResultDs;
+import com.asid.algorithms.sorting.*;
 
 import java.util.*;
 
@@ -39,6 +36,12 @@ public class SortingAlgorithmComparison {
         SortResultDs mergeSort = mergeSortService.sort(list5, comparator);
         System.out.println("MergeSort: " + mergeSort.getEstimatedTime());
 
+        List<Route> list6 = getTarget();
+
+        QuickSortService quickSortService = new QuickSortService();
+        SortResultDs quickSort = quickSortService.sort(list6, comparator);
+        System.out.println("QuickSort: " + quickSort.getEstimatedTime());
+
 
         List<Route> list3 = getTarget();
         Collections.sort(list3, getComparator());
@@ -48,6 +51,8 @@ public class SortingAlgorithmComparison {
         System.out.println("InsertSort: " + sortResultDs3.getEstimatedTime());
         SortResultDs mergeSort3 = mergeSortService.sort(list3, comparator);
         System.out.println("MergeSort: " + mergeSort3.getEstimatedTime());
+        SortResultDs quickSort3 = quickSortService.sort(list3, comparator);
+        System.out.println("QuickSort: " + quickSort3.getEstimatedTime());
         SortResultDs selectionSort3 = selectionSortService.sort(list3, comparator);
         System.out.println("SelectionSort: " + selectionSort3.getEstimatedTime());
 
@@ -59,6 +64,8 @@ public class SortingAlgorithmComparison {
         System.out.println("InsertSort: " + sortResultDs4.getEstimatedTime());
         SortResultDs mergeSort4 = mergeSortService.sort(list4, comparator);
         System.out.println("MergeSort: " + mergeSort4.getEstimatedTime());
+        SortResultDs quickSort4 = quickSortService.sort(list4, comparator);
+        System.out.println("QuickSort: " + quickSort4.getEstimatedTime());
         SortResultDs selectionSort4 = selectionSortService.sort(list4, comparator);
         System.out.println("SelectionSort: " + selectionSort4.getEstimatedTime());
 

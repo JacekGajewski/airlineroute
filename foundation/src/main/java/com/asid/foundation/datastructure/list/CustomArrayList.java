@@ -108,7 +108,7 @@ public class CustomArrayList<T> extends AbstractCustomListAdapter<T> {
     public T remove(int index) {
         if(index>= size)
             throw new IndexOutOfBoundsException();
-        T prev = (T)array[index];
+        T prev = (T) array[index];
         while(index+1 < size) {
             array[index] = array[index + 1];
             index++;
@@ -143,7 +143,7 @@ public class CustomArrayList<T> extends AbstractCustomListAdapter<T> {
     private void resizeDown(){
         Object[] newArray;
         if(array.length*0.6>size()){
-            newArray = new Object[(array.length/3)*2];
+            newArray = new Object[(array.length*2)/3];
             for(int i = 0; i < size(); i++){
                 newArray[i] = array[i];
             }
@@ -169,7 +169,7 @@ public class CustomArrayList<T> extends AbstractCustomListAdapter<T> {
         @Override
         public boolean hasNext()
         {
-            return index < size - 1 ? true : false;
+            return index <= size - 1 ? true : false;
         }
 
         @Override

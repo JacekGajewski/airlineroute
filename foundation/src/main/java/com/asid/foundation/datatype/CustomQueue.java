@@ -28,7 +28,7 @@ public class CustomQueue<T> extends AbstractCustomQueueAdapter<T> {
     @Override
     public boolean add(T t) {
           storage.add(t);
-        return false;
+        return true;
     }
 
     @Override

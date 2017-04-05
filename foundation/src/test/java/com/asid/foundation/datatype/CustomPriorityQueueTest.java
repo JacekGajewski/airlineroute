@@ -13,7 +13,6 @@ public class CustomPriorityQueueTest {
     private final static double DELTA = 0.01;
 
     @Test
-    @Ignore /* remove this line and write other tests. */
     public void shouldAddAndRemoveNumbersAscending() {
         //Pre
         Queue<Integer> q = new CustomPriorityQueue<>(10, (n1, n2) -> n1.compareTo(n2));
@@ -36,7 +35,6 @@ public class CustomPriorityQueueTest {
 
 
     @Test
-    @Ignore /* remove this line and write other tests. */
     public void shouldAddAndRemoveNumbersDescending() {
         //Pre
         Queue<Integer> q = new CustomPriorityQueue<>(10, (n1, n2) -> n2.compareTo(n1));

@@ -34,8 +34,8 @@ public class InsertionSortServiceTest {
                 }else return 0;
             }
         };
-        InsertionSortService insertionSortService = new InsertionSortService();
-        SortResultDs sortResultDs = insertionSortService.sort(list, comparator);
+        InsertionSortServiceTest insertionSortServiceTest = new InsertionSortServiceTest();
+        SortResultDs sortResultDs = insertionSortServiceTest.sort(list, comparator);
 
         Assert.assertEquals(6, sortResultDs.getResult().size());
         Assert.assertEquals(4, sortResultDs.getResult().indexOf(9));

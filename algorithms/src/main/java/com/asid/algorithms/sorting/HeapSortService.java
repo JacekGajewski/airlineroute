@@ -1,7 +1,10 @@
 package com.asid.algorithms.sorting;
 
+import com.asid.foundation.datastructure.list.CustomArrayList;
+import com.asid.foundation.datatype.CustomPriorityQueue;
 import com.asid.foundation.messages.StandardMessages;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -11,7 +14,26 @@ import java.util.List;
 public class HeapSortService extends AbstractSortService {
 
     public static <T> SortResultDs<T> sort(List<T> list, Comparator<? super T> comparator) {
-          /* (TODO Lab No. 5) Please introduce a sensible implementation */
-        throw new UnsupportedOperationException(StandardMessages.METHOD_NOT_IMPLEMENTED);
+        long startTime = System.currentTimeMillis();
+        SortResultDs sortResultDs = new SortResultDs();
+        List<T> temp = new CustomArrayList<>();
+        CustomPriorityQueue<T> customPriorityQueue = new CustomPriorityQueue(list.size(), comparator);
+
+
+
+        for (T t : list){
+            customPriorityQueue.add(t);
+        }
+        int j = customPriorityQueue.size();
+        for(int i = 0; i < j; i++){
+            temp.add(customPriorityQueue.poll());
+        }
+        sortResultDs.setResult(temp);
+        long stopTime = System.currentTimeMillis();
+        long elapsedTime = stopTime - startTime;
+        sortResultDs.setEstimatedTime(elapsedTime);
+
+        return sortResultDs;
+        //throw new UnsupportedOperationException(StandardMessages.METHOD_NOT_IMPLEMENTED);
     }
 }

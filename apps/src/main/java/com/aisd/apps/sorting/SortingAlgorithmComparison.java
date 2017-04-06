@@ -7,6 +7,7 @@ import com.asid.algorithms.entity.Route;
 import com.asid.algorithms.mapper.RouteMapper;
 import com.asid.algorithms.sorting.*;
 
+import javax.sound.midi.Soundbank;
 import java.util.*;
 
 /**
@@ -42,6 +43,12 @@ public class SortingAlgorithmComparison {
         SortResultDs quickSort = quickSortService.sort(list6, comparator);
         System.out.println("QuickSort: " + quickSort.getEstimatedTime());
 
+        List<Route> list7 = getTarget();
+
+        HeapSortService heapSortService = new HeapSortService();
+        SortResultDs heapSort = heapSortService.sort(list7, comparator);
+        System.out.println("HeapSort: " + heapSort.getEstimatedTime());
+
 
         List<Route> list3 = getTarget();
         Collections.sort(list3, getComparator());
@@ -53,6 +60,8 @@ public class SortingAlgorithmComparison {
         System.out.println("MergeSort: " + mergeSort3.getEstimatedTime());
         SortResultDs quickSort3 = quickSortService.sort(list3, comparator);
         System.out.println("QuickSort: " + quickSort3.getEstimatedTime());
+        SortResultDs heapSort3 = heapSortService.sort(list3, comparator);
+        System.out.println("HeapSort: " + heapSort3.getEstimatedTime());
         SortResultDs selectionSort3 = selectionSortService.sort(list3, comparator);
         System.out.println("SelectionSort: " + selectionSort3.getEstimatedTime());
 
@@ -66,6 +75,8 @@ public class SortingAlgorithmComparison {
         System.out.println("MergeSort: " + mergeSort4.getEstimatedTime());
         SortResultDs quickSort4 = quickSortService.sort(list4, comparator);
         System.out.println("QuickSort: " + quickSort4.getEstimatedTime());
+        SortResultDs heapSort4 = heapSortService.sort(list4, comparator);
+        System.out.println("HeapSort: " + heapSort4.getEstimatedTime());
         SortResultDs selectionSort4 = selectionSortService.sort(list4, comparator);
         System.out.println("SelectionSort: " + selectionSort4.getEstimatedTime());
 

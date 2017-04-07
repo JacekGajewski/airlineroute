@@ -70,7 +70,6 @@ public class CustomPriorityQueue<T> extends AbstractCustomPriorityQueueAdapter<T
         list.set(a, list.get(b));
         list.set(b, temp);
     }
-
     /**
      * Removes all of the elements from this priority queue.
      */
@@ -78,7 +77,6 @@ public class CustomPriorityQueue<T> extends AbstractCustomPriorityQueueAdapter<T
     public void clear() {
         list.clear();
     }
-
     /**
      * Retrieves and removes the head of this queue, or returns null if this queue is empty.
      *
@@ -94,9 +92,7 @@ public class CustomPriorityQueue<T> extends AbstractCustomPriorityQueueAdapter<T
         if (size() != 0) goDown(list.get(0), 0);
 
         return temp;
-
     }
-
     /**
      * Retrieves, but does not remove, the head of this queue, or returns null if this queue is empty.
      *

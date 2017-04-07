@@ -14,12 +14,13 @@ import java.util.List;
 public class HeapSortService extends AbstractSortService {
 
     public static <T> SortResultDs<T> sort(List<T> list, Comparator<? super T> comparator) {
+
         long startTime = System.currentTimeMillis();
         SortResultDs sortResultDs = new SortResultDs();
+
         List<T> temp = new CustomArrayList<>();
+
         CustomPriorityQueue<T> customPriorityQueue = new CustomPriorityQueue(list.size(), comparator);
-
-
 
         for (T t : list){
             customPriorityQueue.add(t);
@@ -29,6 +30,7 @@ public class HeapSortService extends AbstractSortService {
             temp.add(customPriorityQueue.poll());
         }
         sortResultDs.setResult(temp);
+
         long stopTime = System.currentTimeMillis();
         long elapsedTime = stopTime - startTime;
         sortResultDs.setEstimatedTime(elapsedTime);

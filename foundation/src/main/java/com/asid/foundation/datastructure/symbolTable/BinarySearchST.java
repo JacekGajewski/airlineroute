@@ -44,7 +44,7 @@ public class BinarySearchST<K, V> extends AbstractSymbolTable {
 
     @Override
     public Object put(Object key, Object value) {
-        V temp = null;
+        V temp;
         Node node = new Node((K)key, (V)value);
         int index = putIndex(list, comparator,(K) key);
         if(list.size() == index ||

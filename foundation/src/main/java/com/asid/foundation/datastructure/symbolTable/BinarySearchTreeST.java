@@ -3,6 +3,7 @@ package com.asid.foundation.datastructure.symbolTable;
 import javafx.beans.binding.ObjectExpression;
 
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -20,15 +21,7 @@ public class BinarySearchTreeST<K, V> extends AbstractSymbolTable {
         this.root = null;
         this.comparator = comparator;
         size = 0;
-        //setRoot();
     }
-
-   /* public void setRoot(){
-        if(!list.isEmpty()){
-            root = list.get(list.size()/2);
-        }
-    }*/
-
     @Override
     public int size() {
         return size;
@@ -41,7 +34,6 @@ public class BinarySearchTreeST<K, V> extends AbstractSymbolTable {
 
     @Override
     public boolean containsKey(Object key) {
-
         return find(root, key);
     }
     public boolean find(Node x, Object key){
@@ -132,47 +124,73 @@ public class BinarySearchTreeST<K, V> extends AbstractSymbolTable {
 
     @Override
     public Object remove(Object key) {
-
-        return remove(root, key);
+        if(!containsKey(key)) return null;
+        Node temp = value(root, key);
+        remove(root, key);
+        return temp.getValue();
     }
 
-    public V remove(Node x, Object key){
+    public Node remove(Node x, Object key){
 
-        V temp = null;
+       if(x == null){
+           return null;
+       }
+       if(comparator.compare((K) key, x.getKey()) == 1){
+           x.right = remove(x.right, key);
+       }
+       else if(comparator.compare((K) key, x.getKey()) == -1){
+            x.left = remove(x.left, key);
+       }
+       else{
 
-        if (comparator.compare((K) key, x.getKey()) == 1) {
-            x = x.getRight();
-            temp = remove(x, key);
-        }else if(comparator.compare((K) key, x.getKey()) == -1) {
-            x = x.getLeft();
-            temp = remove(x, key);
-        }else if(comparator.compare((K) key, x.getKey()) == 0){
-            V result = x.getValue();
-            if(x.getRight() != null){
-                x = x.getRight();
-            }
-
-            root = swap(root, x);
-
-            return result;
-        }
-
-        return temp;
+           if(x.right == null) return x.left;
+           if(x.left == null) return x.right;
+           Node t = x;
+           x = min(t.right);
+           x.right = deleteMin(t.right);
+           x.left = t.left;
+       }
+       size--;
+       return x;
     }
-    public Node swap(Node root, Node x){
-        if(x.getRight() != null){
-            x = x.getRight();
-            swap(root, x);
-        }else{
-            x = null;
-            size--;
+
+    public Node min(Node x){
+        if(x.left == null) return x;
+        return min(x.left);
+    }
+
+    public Node deleteMin(Node x){
+        if(x.left == null) return x.right;
+        x.left = deleteMin(x.left);
+        return x;
+    }
+    public Node value(Node x, Object key){
+        Node temp;
+        if(x == null){
+            return null;
         }
-        return root;
+        if(comparator.compare((K) key, x.getKey()) == 1){
+            x = value(x.right, key);
+        }
+        else if(comparator.compare((K) key, x.getKey()) == -1){
+            x = value(x.left, key);
+        }
+        return x;
     }
 
     @Override
     public Set keySet() {
-        return null;
+        Set<K> set = new HashSet<>();
+        allKeys(root, set);
+        return set;
+    }
+    public void allKeys(Node x, Set<K> set){
+
+        if(x == null) return;
+
+        allKeys(x.getLeft(), set);
+        set.add(x.getKey());
+        allKeys(x.getRight(), set);
     }
 
     private class Node{

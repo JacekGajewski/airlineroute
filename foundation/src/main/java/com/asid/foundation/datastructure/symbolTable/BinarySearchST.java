@@ -28,6 +28,9 @@ public class BinarySearchST<K, V> extends AbstractSymbolTable {
 
     @Override
     public boolean containsKey(Object key) {
+        if(list.size() == 0){
+            return false;
+        }
         if(comparator.compare((K) key, list.get(0).getKey()) == -1 ||
                 comparator.compare((K) key, list.get(list.size() - 1).getKey()) == 1) {
             return false;
@@ -38,7 +41,9 @@ public class BinarySearchST<K, V> extends AbstractSymbolTable {
 
     @Override
     public Object get(Object key) {
-
+        if(!containsKey(key)){
+            return null;
+        }
        return list.get(findIndex(list, comparator, (K) key)).getValue();
     }
 

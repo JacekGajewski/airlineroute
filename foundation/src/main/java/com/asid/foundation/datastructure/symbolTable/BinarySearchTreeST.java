@@ -34,6 +34,9 @@ public class BinarySearchTreeST<K, V> extends AbstractSymbolTable {
 
     @Override
     public boolean containsKey(Object key) {
+        if(root == null){
+            return false;
+        }
         return find(root, key);
     }
     public boolean find(Node x, Object key){
@@ -58,6 +61,7 @@ public class BinarySearchTreeST<K, V> extends AbstractSymbolTable {
 
     @Override
     public Object get(Object key) {
+        if(!containsKey(key)) return null;
 
         return get(root, key);
     }
@@ -126,10 +130,29 @@ public class BinarySearchTreeST<K, V> extends AbstractSymbolTable {
     public Object remove(Object key) {
         if(!containsKey(key)) return null;
         Node temp = value(root, key);
+        if(root.getKey().equals(key)){
+            root = removeRoot(root);
+            size--;
+            return temp.getValue();
+        }
         remove(root, key);
+        size--;
         return temp.getValue();
     }
+    public Node removeRoot(Node x){
 
+        Node t = x;
+        if(t.getRight() != null){
+            x = min(t.right);
+            x.right = deleteMin(t.right);
+            x.left = t.left;
+        }else if(t.getLeft() != null){
+            x = t.getLeft();
+        }else{
+            x = null;
+        }
+        return x;
+    }
     public Node remove(Node x, Object key){
 
        if(x == null){
@@ -150,13 +173,12 @@ public class BinarySearchTreeST<K, V> extends AbstractSymbolTable {
            x.right = deleteMin(t.right);
            x.left = t.left;
        }
-       size--;
        return x;
     }
 
     public Node min(Node x){
-        if(x.left == null) return x;
-        return min(x.left);
+        if(x.getLeft() == null) return x;
+        return min(x.getLeft());
     }
 
     public Node deleteMin(Node x){

@@ -42,7 +42,7 @@ public class SequentialSearchST <K, V> extends AbstractSymbolTable {
                 return list.get(i).getValue();
             }
         }
-        return false;
+        return null;
     }
 
     @Override

@@ -20,26 +20,61 @@ public class SequentialSearchSTTest {
     }
 
     @Test
-    public void shouldDoSth(){
+    public void shouldCheckSizeAndEmptiness(){
 
         SequentialSearchST sequentialSearchST = cos();
 
-        sequentialSearchST.put(new Integer(1), new String("Jeden"));
+        Assert.assertEquals(0, sequentialSearchST.size());
+        Assert.assertEquals(true, sequentialSearchST.isEmpty());
+        Assert.assertEquals(false, sequentialSearchST.containsKey(5));
+
+
+        sequentialSearchST.put(1, "Jeden");
         sequentialSearchST.put(2, "Dwa");
         sequentialSearchST.put(3, "Trzy");
         sequentialSearchST.put(4, "Cztery");
 
         Assert.assertEquals(4, sequentialSearchST.size());
         Assert.assertEquals(false, sequentialSearchST.isEmpty());
+        Assert.assertEquals(false, sequentialSearchST.containsKey(5));
+
+
+        sequentialSearchST.remove(1);
+        sequentialSearchST.remove(2);
+        sequentialSearchST.remove(3);
+        sequentialSearchST.remove(4);
+
+        Assert.assertEquals(0, sequentialSearchST.size());
+        Assert.assertEquals(true, sequentialSearchST.isEmpty());
+        Assert.assertEquals(false, sequentialSearchST.containsKey(5));
+
+    }
+
+    @Test
+    public void shouldPutAndGet(){
+
+        SequentialSearchST sequentialSearchST = cos();
+
+        sequentialSearchST.put(1, "Jeden");
+        sequentialSearchST.put(2, "Dwa");
+        sequentialSearchST.put(3, "Trzy");
+        sequentialSearchST.put(4, "Cztery");
+
+        Assert.assertEquals(4, sequentialSearchST.size());
+        Assert.assertEquals(false, sequentialSearchST.isEmpty());
+        Assert.assertEquals(true, sequentialSearchST.containsKey(1));
         Assert.assertEquals(true, sequentialSearchST.containsKey(2));
+        Assert.assertEquals(true, sequentialSearchST.containsKey(3));
+        Assert.assertEquals(true, sequentialSearchST.containsKey(4));
+        Assert.assertEquals(false, sequentialSearchST.containsKey(5));
         Assert.assertEquals("Trzy", sequentialSearchST.get(3));
+        Assert.assertEquals(null, sequentialSearchST.get(5));
+
 
         sequentialSearchST.remove(4);
 
         Assert.assertEquals(3, sequentialSearchST.size());
         Assert.assertEquals(false, sequentialSearchST.containsKey(4));
-
-
     }
 
 

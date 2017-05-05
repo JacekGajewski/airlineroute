@@ -7,26 +7,30 @@ import java.util.Set;
 /**
  * Created by tnt9 on 27.04.17.
  */
-public class RedBlackBinarySearchTreeST<K, V> extends AbstractSymbolTable {
+public class RedBlackBinarySearchTreeST<K extends Comparable, V> extends AbstractSymbolTable {
 
 
-    Comparator<K> comparator;
-    Node root;
+    private static final boolean RED   = true;
+    private static final boolean BLACK = false;
+
     int size;
+    private Node root;
 
-    public RedBlackBinarySearchTreeST( Comparator<K> comparator) {
-        this.root = null;
-        this.comparator = comparator;
+    RedBlackBinarySearchTreeST(){
         size = 0;
     }
-    @Override
+
+    private boolean isRed(Node x) {
+        if (x == null) return false;
+        return x.color == RED;
+    }
+
     public int size() {
         return size;
     }
 
-    @Override
     public boolean isEmpty() {
-        return root == null;
+        return size == 0;
     }
 
     @Override
@@ -34,23 +38,23 @@ public class RedBlackBinarySearchTreeST<K, V> extends AbstractSymbolTable {
         if(root == null){
             return false;
         }
-        return find(root, key);
+        return find(root, (K) key);
     }
-    public boolean find(Node x, Object key){
+    public boolean find(Node x, K key){
         boolean result = false;
-        if (comparator.compare((K) key, x.getKey()) == 1) {
+        if (key.compareTo(x.key) == 1) {
             if(x.getRight() == null){
                 return false;
             }
             x = x.getRight();
             result = find(x, key);
-        }else if(comparator.compare((K) key, x.getKey()) == -1) {
+        }else if(key.compareTo(x.key) == -1) {
             if (x.getLeft() == null) {
                 return false;
             }
             x = x.getLeft();
             result = find(x, key);
-        }else if(comparator.compare((K) key, x.getKey()) == 0){
+        }else if(key.compareTo(x.key) == 0){
             return true;
         }
         return result;
@@ -58,183 +62,157 @@ public class RedBlackBinarySearchTreeST<K, V> extends AbstractSymbolTable {
 
     @Override
     public Object get(Object key) {
-
         if(!containsKey(key)) return null;
-        return get(root, key);
+        return get(root, (K) key);
     }
 
-    public Object get(Node x, Object key){
-
-        if (comparator.compare((K) key, x.getKey()) == 1) {
-            x = x.getRight();
-            return get(x,key);
+    private V get(Node x, K key) {
+        while (x != null) {
+            int cmp = key.compareTo(x.key);
+            if      (cmp < 0) x = x.left;
+            else if (cmp > 0) x = x.right;
+            else              return x.value;
         }
-        else if(comparator.compare((K) key, x.getKey()) == -1){
-            x = x.getLeft();
-            return get(x, key);
-        }
-        return x.getValue();
+        return null;
     }
 
     @Override
     public Object put(Object key, Object value) {
-        root = put(root, key, value);
-        root.color = false;
+        if (key == null) return null;
+
+        root = put(root,(K) key,(V) value);
+        root.color = BLACK;
+        size++;
         return null;
     }
 
     @Override
     public Object put(Comparable key, Object value) {
-        V temp = null;
-        if(containsKey(key)){
-            temp = (V) get(key);
-        }
-        root = put(root, key, value);
-        root.color = false;
-        return temp;
+        if (key == null) return null;
+
+        root = put(root,(K) key,(V) value);
+        root.color = BLACK;
+        size++;
+        return null;
     }
+    private Node put(Node h, K key, V val) {
+        if (h == null) return new Node(key, val, RED);
 
-    public Node put(Node x, Object key, Object value){
+        int cmp = key.compareTo(h.key);
+        if      (cmp < 0) h.left  = put(h.left,  key, val);
+        else if (cmp > 0) h.right = put(h.right, key, val);
+        else              h.value   = val;
 
-        if(x == null){
-            size++;
-            return new Node((K) key,(V) value, true);
-        }
+        if (isRed(h.right) && !isRed(h.left))      h = rotateLeft(h);
+        if (isRed(h.left)  &&  isRed(h.left.left)) h = rotateRight(h);
+        if (isRed(h.left)  &&  isRed(h.right))     flipColors(h);
 
-        if (comparator.compare((K) key, x.getKey()) == 1) {
-                x.right = put(x.right, key, value);
-
-        }else if(comparator.compare((K) key, x.getKey()) == -1) {
-                x.left = put(x.left, key, value);
-
-        }else if(comparator.compare((K) key, x.getKey()) == 0){
-            x.setValue((V) value);
-        }
-        if(isRed(x.right) && !isRed(x.left)){
-            x = rotateLeft(x);
-        }
-        if(isRed(x.left) && isRed(x.left.left)){
-            x = rotateRight(x);
-        }
-        if(isRed(x.left) && isRed(x.right)){
-            flipColors(x);
-        }
-        return x;
-    }
-
-    public boolean isRed(Node x){
-
-        if(x == null) return false;
-        return x.color;
-    }
-
-    public void flipColors(Node x){
-        x.color = true;
-        x.left.color = false;
-        x.right.color = false;
-    }
-
-    public Node rotateLeft(Node h){
-
-        Node x = h.right;
-        h.right = x.left;
-        x.left = h;
-        x.color = h.color;
-        h.color = true;
-
-        return x;
-    }
-
-    public Node rotateRight(Node h){
-
-        Node x = h.left;
-        h.left = x.right;
-        x.right = h;
-        x.color  = h.color;
-        h.color = true;
-
-        return x;
+        return h;
     }
 
     @Override
     public Object remove(Object key) {
-        if(!containsKey(key)) return null;
-        Node temp = value(root, key);
-        if(root.getKey().equals(key)){
-            root = removeRoot(root);
-            size--;
-            return temp.getValue();
-        }
-        remove(root, key);
+        if (key == null ||!containsKey(key)) return null;
+
+        Object temp = get(key);
         size--;
-        return temp.getValue();
+        if (!isRed(root.left) && !isRed(root.right)) {
+            root.color = RED;
+        }
+        root = delete(root,(K) key);
+        if (!isEmpty()) root.color = BLACK;
+        return temp;
     }
+    private Node delete(Node x, K key) {
 
-    public Node removeRoot(Node x){
-
-        Node t = x;
-        if(t.getRight() != null){
-            x = min(t.right);
-            x.right = deleteMin(t.right);
-            x.left = t.left;
-        }else if(t.getLeft() != null){
-            x = t.getLeft();
-        }else{
-            x = null;
+        if (key.compareTo(x.key) < 0)  {
+            if (!isRed(x.left) && !isRed(x.left.left))
+                x = moveRedLeft(x);
+            x.left = delete(x.left, key);
         }
-        return x;
-    }
-
-    public Node remove(Node x, Object key){
-
-        if(x == null){
-
-            return null;
-        }
-        if(comparator.compare((K) key, x.getKey()) == 1){
-            x.right = remove(x.right, key);
-        }
-        else if(comparator.compare((K) key, x.getKey()) == -1){
-            x.left = remove(x.left, key);
-        }
-        else{
-            if(x.color == true || x.left.color == true || x.right.color == true) {
-                if (x.right == null) return x.left;
-                if (x.left == null) return x.right;
-                Node t = x;
-                x = min(t.right);
-                x.right = deleteMin(t.right);
-                x.left = t.left;
+        else {
+            if (isRed(x.left))
+                x = rotateRight(x);
+            if (key.compareTo(x.key) == 0 && (x.right == null))
+                return null;
+            if (!isRed(x.right) && !isRed(x.right.left))
+                x = moveRedRight(x);
+            if (key.compareTo(x.key) == 0) {
+                Node temp = min(x.right);
+                x.key = temp.key;
+                x.value = temp.value;
+                // x.val = get(x.right, min(x.right).key);
+                // x.key = min(x.right).key;
+                x.right = deleteMin(x.right);
             }
+            else x.right = delete(x.right, key);
         }
-        return x;
+        return balance(x);
     }
-
-    public Node min(Node x){
-        if(x.getLeft() == null) return x;
-        return min(x.getLeft());
-    }
-
-    public Node deleteMin(Node x){
-        if(x.left == null) return x.right;
-        x.left = deleteMin(x.left);
-        return x;
-    }
-
-    public Node value(Node x, Object key){
-        Node temp;
-        if(x == null){
+    private Node deleteMin(Node h) {
+        if (h.left == null)
             return null;
-        }
-        if(comparator.compare((K) key, x.getKey()) == 1){
-            x = value(x.right, key);
-        }
-        else if(comparator.compare((K) key, x.getKey()) == -1){
-            x = value(x.left, key);
-        }
+
+        if (!isRed(h.left) && !isRed(h.left.left))
+            h = moveRedLeft(h);
+
+        h.left = deleteMin(h.left);
+        return balance(h);
+    }
+
+    private Node rotateRight(Node h) {
+        Node x = h.left;
+        h.left = x.right;
+        x.right = h;
+        x.color = x.right.color;
+        x.right.color = RED;
+        return x;
+    }
+    private Node rotateLeft(Node h) {
+        Node x = h.right;
+        h.right = x.left;
+        x.left = h;
+        x.color = x.left.color;
+        x.left.color = RED;
         return x;
     }
 
+    private void flipColors(Node h) {
+        h.color = !h.color;
+        h.left.color = !h.left.color;
+        h.right.color = !h.right.color;
+    }
+
+    private Node moveRedLeft(Node h) {
+        flipColors(h);
+        if (isRed(h.right.left)) {
+            h.right = rotateRight(h.right);
+            h = rotateLeft(h);
+            flipColors(h);
+        }
+        return h;
+    }
+    private Node moveRedRight(Node h) {
+        flipColors(h);
+        if (isRed(h.left.left)) {
+            h = rotateRight(h);
+            flipColors(h);
+        }
+        return h;
+    }
+
+    private Node balance(Node h) {
+        if (isRed(h.right))                      h = rotateLeft(h);
+        if (isRed(h.left) && isRed(h.left.left)) h = rotateRight(h);
+        if (isRed(h.left) && isRed(h.right))     flipColors(h);
+        return h;
+    }
+    private Node min(Node x) {
+        if (x.left == null) return x;
+        else{
+            return min(x.left);
+        }
+    }
     @Override
     public Set keySet() {
         Set<K> set = new HashSet<>();
@@ -249,7 +227,6 @@ public class RedBlackBinarySearchTreeST<K, V> extends AbstractSymbolTable {
         set.add(x.getKey());
         allKeys(x.getRight(), set);
     }
-
     private class Node{
 
         K key;
@@ -313,6 +290,5 @@ public class RedBlackBinarySearchTreeST<K, V> extends AbstractSymbolTable {
             this.right = right;
         }
     }
-
 }
 

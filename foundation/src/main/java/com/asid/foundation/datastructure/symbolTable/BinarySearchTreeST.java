@@ -12,7 +12,7 @@ import java.util.Set;
  */
 public class BinarySearchTreeST<K, V> extends AbstractSymbolTable {
 
-    //List<Node> list;
+
     Comparator<K> comparator;
     Node root;
     int size;

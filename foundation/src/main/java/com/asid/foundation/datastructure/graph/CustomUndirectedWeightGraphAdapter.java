@@ -234,14 +234,14 @@ public class CustomUndirectedWeightGraphAdapter<K, V> extends AbstractUndirected
 
     @Override
     public double getEdgeWeight(Object o) {
-        if (!(containsEdge(o))) return 1.0;
-        //if (!isWeight) return 1.0;
+        if (!(containsEdge(o)) || !isWeight) return DEFAULT_WEIGHT;
         DefaultEdge defaultEdge = (DefaultEdge) o;
         return defaultEdge.getWeight();
     }
 
     @Override
-    public void setEdgeWeight(Object o, double v) { // Should I change isWeight to true????
+    public void setEdgeWeight(Object o, double v) {
+        if (!(containsEdge(o)) || !isWeight) return;
         for (List list : adj){
             for (int i = 1; i < list.size(); i++){
                 if (equals((DefaultEdge) list.get(i), (DefaultEdge) o)) setWght((DefaultEdge) o, v);

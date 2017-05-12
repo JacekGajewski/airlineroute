@@ -208,14 +208,14 @@ public class CustomDirectedWeightGraphAdapter<K, V> extends AbstractDirectedWeig
 
     @Override
     public double getEdgeWeight(Object o) {
-        if (!(containsEdge(o))) return 1.0;
-        //if (!isWeight) return 1.0;
+        if (!(containsEdge(o)) || !isWeight) return DEFAULT_WEIGHT;
         DefaultEdge defaultEdge = (DefaultEdge) o;
         return defaultEdge.getWeight();
     }
 
     @Override
     public void setEdgeWeight(Object o, double v) {
+        if (!(containsEdge(o)) || !isWeight) return;
         for (List list : adj){
             for (int i = 1; i < list.size(); i++){
                 if (equals((DefaultEdge) list.get(i), (DefaultEdge) o)) setWght((DefaultEdge) o, v);
@@ -230,7 +230,6 @@ public class CustomDirectedWeightGraphAdapter<K, V> extends AbstractDirectedWeig
     @Override
     public int outDegreeOf(Object o) {
         int degree = 0;
-        //if (!containsVertex(o)) throw
         for(List list : adj){
             if (list.get(0).equals(o)){
                 for(Object object : list) degree++;
@@ -255,7 +254,6 @@ public class CustomDirectedWeightGraphAdapter<K, V> extends AbstractDirectedWeig
     @Override
     public int inDegreeOf(Object o) {
         int degree = 0;
-        //if (!containsVertex(o)) throw
         for(List list : adj){
             for (int i = 1; i < list.size(); i++){
                 if (getEdgeTarget(list.get(i)).equals(o)) degree++;
@@ -267,7 +265,6 @@ public class CustomDirectedWeightGraphAdapter<K, V> extends AbstractDirectedWeig
     @Override
     public Set outgoingEdgesOf(Object o) {
         if (!containsVertex(o)) return null;
-
         Set set = new HashSet();
         for (List list : adj){
             if (list.get(0).equals(o)){

@@ -1,0 +1,255 @@
+Index: foundation/src/test/java/com/asid/foundation/datastructure/symbolTable/BinarySearchTreeSTTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- foundation/src/test/java/com/asid/foundation/datastructure/symbolTable/BinarySearchTreeSTTest.java	(revision )
++++ foundation/src/test/java/com/asid/foundation/datastructure/symbolTable/BinarySearchTreeSTTest.java	(revision )
+@@ -0,0 +1,87 @@
++package com.asid.foundation.datastructure.symbolTable;
++
++import com.asid.foundation.datastructure.list.Node;
++import org.junit.Assert;
++import org.junit.Test;
++
++import java.util.ArrayList;
++import java.util.Comparator;
++
++/**
++ * Created by tnt9 on 21.04.17.
++ */
++public class BinarySearchTreeSTTest {
++
++        public static BinarySearchTreeST cos(){
++            Comparator<Integer> comparator = new Comparator<Integer>() {
++                @Override
++                public int compare(Integer o1, Integer o2) {
++                    if(o1 > o2){
++                        return 1;
++                    }else if(o1 < o2){
++                        return -1;
++                    }else return 0;
++                }
++            };
++            BinarySearchTreeST binarySearchTreeST = new BinarySearchTreeST(comparator);
++
++            return binarySearchTreeST;
++        }
++    @Test
++    public void shouldCheckSizeAndEmptiness(){
++
++        BinarySearchTreeST binarySearchTreeST = cos();
++
++        Assert.assertEquals(0, binarySearchTreeST.size());
++        Assert.assertEquals(true, binarySearchTreeST.isEmpty());
++        Assert.assertEquals(false, binarySearchTreeST.containsKey(5));
++
++
++        binarySearchTreeST.put(1, "Jeden");
++        binarySearchTreeST.put(2, "Dwa");
++        binarySearchTreeST.put(3, "Trzy");
++        binarySearchTreeST.put(4, "Cztery");
++
++        Assert.assertEquals(4, binarySearchTreeST.size());
++        Assert.assertEquals(false, binarySearchTreeST.isEmpty());
++        Assert.assertEquals(false, binarySearchTreeST.containsKey(5));
++
++
++        binarySearchTreeST.remove(1);
++        binarySearchTreeST.remove(2);
++        binarySearchTreeST.remove(3);
++        binarySearchTreeST.remove(4);
++
++        Assert.assertEquals(0, binarySearchTreeST.size());
++        Assert.assertEquals(true, binarySearchTreeST.isEmpty());
++        Assert.assertEquals(false, binarySearchTreeST.containsKey(5));
++
++    }
++
++        @Test
++        public void shouldPutAndGet(){
++
++            BinarySearchTreeST binarySearchTreeST = cos();
++
++            binarySearchTreeST.put(1, "Jeden");
++            binarySearchTreeST.put(2, "Dwa");
++            binarySearchTreeST.put(3, "Trzy");
++            binarySearchTreeST.put(4, "Cztery");
++
++            Assert.assertEquals(4, binarySearchTreeST.size());
++            Assert.assertEquals(false, binarySearchTreeST.isEmpty());
++            Assert.assertEquals(true, binarySearchTreeST.containsKey(1));
++            Assert.assertEquals(true, binarySearchTreeST.containsKey(2));
++            Assert.assertEquals(true, binarySearchTreeST.containsKey(3));
++            Assert.assertEquals(true, binarySearchTreeST.containsKey(4));
++            Assert.assertEquals(false, binarySearchTreeST.containsKey(5));
++            Assert.assertEquals("Trzy", binarySearchTreeST.get(3));
++            Assert.assertEquals(null, binarySearchTreeST.get(5));
++
++
++            binarySearchTreeST.remove(4);
++
++            Assert.assertEquals(3, binarySearchTreeST.size());
++            Assert.assertEquals(false, binarySearchTreeST.containsKey(4));
++        }
++    }
+\ No newline at end of file
+Index: foundation/src/test/java/com/asid/foundation/datastructure/symbolTable/SequentialSearchSTTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- foundation/src/test/java/com/asid/foundation/datastructure/symbolTable/SequentialSearchSTTest.java	(revision 8af29193c64303871d30368ab756b4b3d03b1dcb)
++++ foundation/src/test/java/com/asid/foundation/datastructure/symbolTable/SequentialSearchSTTest.java	(revision )
+@@ -20,26 +20,61 @@
+     }
+ 
+     @Test
+-    public void shouldDoSth(){
++    public void shouldCheckSizeAndEmptiness(){
+ 
+         SequentialSearchST sequentialSearchST = cos();
+ 
+-        sequentialSearchST.put(new Integer(1), new String("Jeden"));
++        Assert.assertEquals(0, sequentialSearchST.size());
++        Assert.assertEquals(true, sequentialSearchST.isEmpty());
++        Assert.assertEquals(false, sequentialSearchST.containsKey(5));
++
++
++        sequentialSearchST.put(1, "Jeden");
+         sequentialSearchST.put(2, "Dwa");
+         sequentialSearchST.put(3, "Trzy");
+         sequentialSearchST.put(4, "Cztery");
+ 
+         Assert.assertEquals(4, sequentialSearchST.size());
+         Assert.assertEquals(false, sequentialSearchST.isEmpty());
++        Assert.assertEquals(false, sequentialSearchST.containsKey(5));
++
++
++        sequentialSearchST.remove(1);
++        sequentialSearchST.remove(2);
++        sequentialSearchST.remove(3);
++        sequentialSearchST.remove(4);
++
++        Assert.assertEquals(0, sequentialSearchST.size());
++        Assert.assertEquals(true, sequentialSearchST.isEmpty());
++        Assert.assertEquals(false, sequentialSearchST.containsKey(5));
++
++    }
++
++    @Test
++    public void shouldPutAndGet(){
++
++        SequentialSearchST sequentialSearchST = cos();
++
++        sequentialSearchST.put(1, "Jeden");
++        sequentialSearchST.put(2, "Dwa");
++        sequentialSearchST.put(3, "Trzy");
++        sequentialSearchST.put(4, "Cztery");
++
++        Assert.assertEquals(4, sequentialSearchST.size());
++        Assert.assertEquals(false, sequentialSearchST.isEmpty());
++        Assert.assertEquals(true, sequentialSearchST.containsKey(1));
+         Assert.assertEquals(true, sequentialSearchST.containsKey(2));
++        Assert.assertEquals(true, sequentialSearchST.containsKey(3));
++        Assert.assertEquals(true, sequentialSearchST.containsKey(4));
++        Assert.assertEquals(false, sequentialSearchST.containsKey(5));
+         Assert.assertEquals("Trzy", sequentialSearchST.get(3));
++        Assert.assertEquals(null, sequentialSearchST.get(5));
++
+ 
+         sequentialSearchST.remove(4);
+ 
+         Assert.assertEquals(3, sequentialSearchST.size());
+         Assert.assertEquals(false, sequentialSearchST.containsKey(4));
+-
+-
+     }
+ 
+ 
+Index: foundation/src/test/java/com/asid/foundation/datastructure/symbolTable/BinarySearchSTTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- foundation/src/test/java/com/asid/foundation/datastructure/symbolTable/BinarySearchSTTest.java	(revision 8af29193c64303871d30368ab756b4b3d03b1dcb)
++++ foundation/src/test/java/com/asid/foundation/datastructure/symbolTable/BinarySearchSTTest.java	(revision )
+@@ -30,29 +30,63 @@
+             return binarySearchST;
+         }
+ 
+-        @Test
+-        public void shouldDoSth(){
++    @Test
++    public void shouldCheckSizeAndEmptiness(){
+ 
+-            BinarySearchST binarySearchST = cos();
++        BinarySearchST binarySearchST = cos();
+ 
+-            binarySearchST.put(1, "Jeden");
+-            binarySearchST.put(2, "Dwa");
+-            binarySearchST.put(3, "Trzy");
+-            binarySearchST.put(4, "Cztery");
++        Assert.assertEquals(0, binarySearchST.size());
++        Assert.assertEquals(true, binarySearchST.isEmpty());
++        Assert.assertEquals(false, binarySearchST.containsKey(5));
++
++
++        binarySearchST.put(1, "Jeden");
++        binarySearchST.put(2, "Dwa");
++        binarySearchST.put(3, "Trzy");
++        binarySearchST.put(4, "Cztery");
+ 
+-            Assert.assertEquals(4, binarySearchST.size());
+-            Assert.assertEquals(false, binarySearchST.isEmpty());
+-            Assert.assertEquals(true, binarySearchST.containsKey(2));
+-            Assert.assertEquals("Trzy", binarySearchST.get(3));
++        Assert.assertEquals(4, binarySearchST.size());
++        Assert.assertEquals(false, binarySearchST.isEmpty());
++        Assert.assertEquals(false, binarySearchST.containsKey(5));
+ 
+-            binarySearchST.remove(4);
++
++        binarySearchST.remove(1);
++        binarySearchST.remove(2);
++        binarySearchST.remove(3);
++        binarySearchST.remove(4);
+ 
+-            Assert.assertEquals(3, binarySearchST.size());
+-            Assert.assertEquals(false, binarySearchST.containsKey(4));
++        Assert.assertEquals(0, binarySearchST.size());
++        Assert.assertEquals(true, binarySearchST.isEmpty());
++        Assert.assertEquals(false, binarySearchST.containsKey(5));
+ 
++    }
+ 
++    @Test
++    public void shouldPutAndGet(){
+ 
+-        }
++        BinarySearchST binarySearchTreeST = cos();
++
++        binarySearchTreeST.put(1, "Jeden");
++        binarySearchTreeST.put(2, "Dwa");
++        binarySearchTreeST.put(3, "Trzy");
++        binarySearchTreeST.put(4, "Cztery");
++
++        Assert.assertEquals(4, binarySearchTreeST.size());
++        Assert.assertEquals(false, binarySearchTreeST.isEmpty());
++        Assert.assertEquals(true, binarySearchTreeST.containsKey(1));
++        Assert.assertEquals(true, binarySearchTreeST.containsKey(2));
++        Assert.assertEquals(true, binarySearchTreeST.containsKey(3));
++        Assert.assertEquals(true, binarySearchTreeST.containsKey(4));
++        Assert.assertEquals(false, binarySearchTreeST.containsKey(5));
++        Assert.assertEquals("Trzy", binarySearchTreeST.get(3));
++        Assert.assertEquals(null, binarySearchTreeST.get(5));
++
++
++        binarySearchTreeST.remove(4);
++
++        Assert.assertEquals(3, binarySearchTreeST.size());
++        Assert.assertEquals(false, binarySearchTreeST.containsKey(4));
++    }
+ 
+ 
+     }

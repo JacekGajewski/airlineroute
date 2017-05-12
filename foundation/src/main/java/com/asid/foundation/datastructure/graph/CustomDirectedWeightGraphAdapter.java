@@ -94,9 +94,7 @@ public class CustomDirectedWeightGraphAdapter<K, V> extends AbstractDirectedWeig
     public boolean containsEdge(Object o) {
         if (o == null) return false;
         for(Object object : edgeSet()){
-            if (!(object instanceof  Integer)) {
-                if (equals((DefaultEdge) object, (DefaultEdge) o)) return true;
-            }
+            if (equals((DefaultEdge) object, (DefaultEdge) o)) return true;
         }
         return false;
     }
@@ -244,6 +242,7 @@ public class CustomDirectedWeightGraphAdapter<K, V> extends AbstractDirectedWeig
 
     @Override
     public Set incomingEdgesOf(Object o) {
+        if (!containsVertex(o)) return null;
         Set set = new HashSet();
         for (List list : adj){
             for (int i = 1; i < list.size(); i++){
@@ -267,6 +266,8 @@ public class CustomDirectedWeightGraphAdapter<K, V> extends AbstractDirectedWeig
 
     @Override
     public Set outgoingEdgesOf(Object o) {
+        if (!containsVertex(o)) return null;
+
         Set set = new HashSet();
         for (List list : adj){
             if (list.get(0).equals(o)){

@@ -11,7 +11,6 @@ import java.util.*;
  */
 public class CustomUndirectedWeightGraphAdapter<K, V> extends AbstractUndirectedWeightGraphAdapter {
 
-    List<Object> obj = new LinkedList<>();
     List<LinkedList> adj = new ArrayList<>();
 
 
@@ -58,7 +57,7 @@ public class CustomUndirectedWeightGraphAdapter<K, V> extends AbstractUndirected
     @Override
     public Object addEdge(Object o, Object v1) {
 
-        if(containsEdge(o, v1)) return false;
+        if(containsEdge(o, v1)) return null;
 
         DefaultEdge defaultEdge1 = new DefaultEdge();
         defaultEdge1.setSource(o);
@@ -86,6 +85,7 @@ public class CustomUndirectedWeightGraphAdapter<K, V> extends AbstractUndirected
         adj.add(list);
         return true;
     }
+
     public boolean equals(DefaultEdge a, DefaultEdge b){
 
         if (a.getSource() == b.getSource() &&
@@ -164,7 +164,6 @@ public class CustomUndirectedWeightGraphAdapter<K, V> extends AbstractUndirected
     @Override
     public Object removeEdge(Object o, Object v1) {
 
-
         if(!containsEdge(o, v1)) return null;
 
         DefaultEdge defaultEdge1 = new DefaultEdge();
@@ -178,6 +177,7 @@ public class CustomUndirectedWeightGraphAdapter<K, V> extends AbstractUndirected
             if (list.get(0).equals(o) || list.get(0).equals(v1)){
                 for (int i = 1; i < list.size(); i++){
                     if (equals((DefaultEdge) list.get(i), defaultEdge1)) list.remove(i);
+                    if (equals((DefaultEdge) list.get(i), defaultEdge2)) list.remove(i);
                 }
             }
         }

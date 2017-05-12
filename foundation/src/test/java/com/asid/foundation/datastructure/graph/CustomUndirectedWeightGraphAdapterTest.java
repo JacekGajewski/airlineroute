@@ -165,6 +165,5 @@ public class CustomUndirectedWeightGraphAdapterTest {
         customUndirectedWeightGraphAdapter.setEdgeWeight(customUndirectedWeightGraphAdapter.getEdge(one, two), 2.0);
 
         Assert.assertEquals(2, customUndirectedWeightGraphAdapter.getEdgeWeight(customUndirectedWeightGraphAdapter.getEdge(one, two)), 0.01);
-       
     }
 }

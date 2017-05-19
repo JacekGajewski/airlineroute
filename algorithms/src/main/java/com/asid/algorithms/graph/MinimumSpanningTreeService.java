@@ -4,54 +4,53 @@ import com.asid.foundation.datastructure.graph.AbstractUndirectedWeightGraphAdap
 import com.asid.foundation.datastructure.graph.DefaultEdge;
 import com.asid.foundation.datatype.CustomPriorityQueue;
 import com.asid.foundation.datatype.CustomStack;
+import org.jgrapht.alg.util.UnionFind;
 
 import java.util.*;
 
 /**
  * Created by tnt9 on 15.05.17.
  */
-public class MinimumSpanningTreeService implements AbstractMinimumSpanningTreeService {
+public class MinimumSpanningTreeService<V> implements AbstractMinimumSpanningTreeService {
 
     @Override
     public MSTResultDs searchMinimumSpanningTreeUsingKruskalAlg(AbstractUndirectedWeightGraphAdapter graph) {
 
+        mst = new ArrayList<>();
         MSTResultDs mstResultDs = new MSTResultDs();
-        List<DefaultEdge> result = new ArrayList<>();
+
+        queue = new CustomPriorityQueue<>(10, new Comparator<DefaultEdge>() {
+            @Override
+            public int compare(DefaultEdge o1, DefaultEdge o2) {
+                if (o1.getWeight() > o2.getWeight()) return 1;
+                if (o1.getWeight() < o2.getWeight()) return -1;
+                else return 0;
+            }
+        });
+
         Set<DefaultEdge> set = graph.edgeSet();
-        CustomStack<DefaultEdge> customStack = new CustomStack(new LinkedList());
-        DefaultEdge temp = null;
-        double weight;
 
-        int i = set.size();
-        long j = 0;
-
-        Set<Object> joint = new HashSet<>();
-
-        for (Object object : graph.vertexSet()){
-            joint.add(object);
+        for (DefaultEdge defaultEdge : set){
+            queue.add(defaultEdge);
         }
 
-        while (i != 0){
-            for (DefaultEdge defaultEdge : set) {
-                if (defaultEdge.getWeight() > j){
-                    j = defaultEdge.getWeight();
-                    temp = defaultEdge;
-                }
+        UnionFind unionFind = new UnionFind(graph.vertexSet());
+
+        while (!queue.isEmpty() && mst.size() < graph.vertexSet().size() - 1) {
+
+            DefaultEdge temp = queue.poll();
+            Object one = temp.getSource();
+            Object two = temp.getTarget();
+            if (unionFind.find(one) != unionFind.find(two)){
+                unionFind.union(one, two);
+                mst.add(temp);
+                weight += temp.getWeight();
             }
-            set.remove(temp);
-            i--;
-            if (temp.getTarget() != temp.getSource()){
-                customStack.push(temp);
-            }
-            j = 0;
         }
 
+        mstResultDs.setEgdes(mst);
+        mstResultDs.setTotalWeight(weight);
 
-        while (!customStack.isEmpty()){
-            temp = customStack.pop();
-            Object source = temp.getSource();
-            Object target = temp.getTarget();
-        }
         return mstResultDs;
     }
     private double weight;

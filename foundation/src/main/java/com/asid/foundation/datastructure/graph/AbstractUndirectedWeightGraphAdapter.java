@@ -104,4 +104,7 @@ public abstract class AbstractUndirectedWeightGraphAdapter<V,E> implements Undir
 
     @Override
     public abstract void setEdgeWeight(E e, double v);
+
+
+    public abstract Set<E> edgesOfIndex(int v);
 }

@@ -44,14 +44,14 @@ public class CustomPriorityQueue<T> extends AbstractCustomPriorityQueueAdapter<T
         return true;
     }
 
-    public void goUp(T t, int index) {
+    private void goUp(T t, int index) {
         while (comparator.compare(t, list.get(index / 2)) == -1) {
             swap(index, index / 2);
             index = index / 2;
         }
     }
 
-    public void goDown(T t, int index) {
+    private void goDown(T t, int index) {
         while (size() - 1 >= 2 * index + 1 &&
                 (comparator.compare(t, list.get(2 * index)) == 1 ||
                         comparator.compare(t, list.get(2 * index + 1)) == 1)) {
@@ -65,7 +65,7 @@ public class CustomPriorityQueue<T> extends AbstractCustomPriorityQueueAdapter<T
         }
     }
 
-    public void swap(int a, int b) {
+    private void swap(int a, int b) {
         T temp = list.get(a);
         list.set(a, list.get(b));
         list.set(b, temp);

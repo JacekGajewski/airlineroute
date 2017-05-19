@@ -11,7 +11,7 @@ import java.util.*;
  */
 public class CustomUndirectedWeightGraphAdapter<K, V> extends AbstractUndirectedWeightGraphAdapter {
 
-    List<LinkedList> adj = new ArrayList<>();
+    public List<LinkedList> adj = new ArrayList<>();
 
 
     public CustomUndirectedWeightGraphAdapter(EdgeFactory edgeFactory, boolean isWeight) {
@@ -160,6 +160,22 @@ public class CustomUndirectedWeightGraphAdapter<K, V> extends AbstractUndirected
         }
         return set;
     }
+    public Set edgesOfIndex(int x){
+
+        int y = 0;
+        Set set = new HashSet();
+        for(List list : adj) {
+            if (y == x) {
+                for (int i = 1; i < list.size(); i++) {
+                    set.add(list.get(i));
+                }
+                return set;
+            }
+            y++;
+        }
+        return set;
+
+    }
 
     @Override
     public Object removeEdge(Object o, Object v1) {
@@ -244,7 +260,8 @@ public class CustomUndirectedWeightGraphAdapter<K, V> extends AbstractUndirected
         if (!(containsEdge(o)) || !isWeight) return;
         for (List list : adj){
             for (int i = 1; i < list.size(); i++){
-                if (equals((DefaultEdge) list.get(i), (DefaultEdge) o)) setWght((DefaultEdge) o, v);
+                if (equals((DefaultEdge) list.get(i), (DefaultEdge) o)) setWght((DefaultEdge) list.get(i), v);
+
             }
         }
 

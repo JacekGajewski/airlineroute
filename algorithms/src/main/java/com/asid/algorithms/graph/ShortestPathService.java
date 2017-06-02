@@ -3,6 +3,7 @@ package com.asid.algorithms.graph;
 import com.asid.algorithms.entity.Airport;
 import com.asid.foundation.datastructure.graph.AbstractDirectedWeightGraphAdapter;
 import com.asid.foundation.datastructure.graph.AbstractUndirectedWeightGraphAdapter;
+import com.asid.foundation.datastructure.graph.CustomUndirectedWeightGraphAdapter;
 import com.asid.foundation.datastructure.graph.DefaultEdge;
 
 import java.util.*;
@@ -12,9 +13,12 @@ import java.util.*;
  */
 public class ShortestPathService implements AbstractShortestPathService {
 
-    double[] distTo;          // distTo[v] = distance  of shortest s->v path
-    DefaultEdge[] edgeTo;    // edgeTo[v] = last edge on shortest s->v path
+    double[] distTo;
+    DefaultEdge[] edgeTo;
     IndexMinPQ<Double> pq;
+
+
+
 
     @Override
     public MSTResultDs searchShortestPathUsingDijkstraAlg(AbstractUndirectedWeightGraphAdapter graph, Object from, Object to) {
@@ -39,7 +43,7 @@ public class ShortestPathService implements AbstractShortestPathService {
             distTo[i] = Double.POSITIVE_INFINITY;
         distTo[start] = 0.0;
 
-        // relax vertices in order of distance from s
+
         pq = new IndexMinPQ<>(graph.vertexSet().size());
 
         pq.insert(start, distTo(start));
@@ -50,9 +54,8 @@ public class ShortestPathService implements AbstractShortestPathService {
                 relax(e, objectToIndex);
         }
 
-        //Stack<DefaultEdge> path = new Stack<>();
+
         for (DefaultEdge e = edgeTo[end]; e != null; e = edgeTo[objectToIndex.getIndexOfObject(e.getSource())]) {
-            //path.push(e);
             totalWeight += e.getWeight();
             list.add(e);
         }
@@ -60,10 +63,10 @@ public class ShortestPathService implements AbstractShortestPathService {
         mstResultDs.setTotalWeight(totalWeight);
         return mstResultDs;
     }
-    // relax edge e and update pq if changed
+
     private void relax(DefaultEdge e, ObjectToIndex o) {
-        int v = o.getIndexOfObject(e.getSource());//(int) e.getSource();
-        int w = o.getIndexOfObject(e.getTarget());//(int)  e.getTarget();
+        int v = o.getIndexOfObject(e.getSource());
+        int w = o.getIndexOfObject(e.getTarget());
         if (distTo[w] > distTo[v] + e.getWeight()) {
             distTo[w] = distTo[v] + e.getWeight();
             edgeTo[w] = e;
@@ -91,6 +94,7 @@ public class ShortestPathService implements AbstractShortestPathService {
         for (Object object : graph.vertexSet()){
             temp.add(object);
         }
+
         ObjectToIndex objectToIndex = new ObjectToIndex(temp);
         int start =  objectToIndex.getIndexOfObject(from);
         int end = objectToIndex.getIndexOfObject(to);
@@ -102,7 +106,6 @@ public class ShortestPathService implements AbstractShortestPathService {
             distTo[i] = Double.POSITIVE_INFINITY;
         distTo[start] = 0.0;
 
-        // relax vertices in order of distance from s
         pq = new IndexMinPQ<>(graph.vertexSet().size());
 
         pq.insert(start, distTo(start));
@@ -113,9 +116,8 @@ public class ShortestPathService implements AbstractShortestPathService {
                 relax(e, objectToIndex);
         }
 
-        //Stack<DefaultEdge> path = new Stack<>();
+
         for (DefaultEdge e = edgeTo[end]; e != null; e = edgeTo[objectToIndex.getIndexOfObject(e.getSource())]) {
-            //path.push(e);
             totalWeight += e.getWeight();
             list.add(e);
         }

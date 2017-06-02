@@ -64,6 +64,21 @@ public class CustomDirectedWeightGraphAdapter<K, V> extends AbstractDirectedWeig
         }
         return defaultEdge;
     }
+    public Object addEdgeAndWeight(Object o, Object v1, long v) {
+        if(containsEdge(o, v1)) return null;
+
+        DefaultEdge defaultEdge = new DefaultEdge();
+        defaultEdge.setSource(o);
+        defaultEdge.setTarget(v1);
+        defaultEdge.setWeight(v);
+
+        for(List list : adj){
+            if (list.get(0).equals(o)){
+                list.add(defaultEdge);
+            }
+        }
+        return defaultEdge;
+    }
 
     @Override
     public boolean addVertex(Object o) {

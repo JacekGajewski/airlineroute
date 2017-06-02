@@ -1,8 +1,6 @@
 package com.asid.foundation.datastructure.graph;
 
-import com.asid.foundation.datastructure.list.CustomArrayList;
 import org.jgrapht.EdgeFactory;
-import org.jgrapht.Graph;
 
 import java.util.*;
 
@@ -153,7 +151,7 @@ public class CustomUndirectedWeightGraphAdapter<K, V> extends AbstractUndirected
         for(List list : adj) {
             if (o.equals(list.get(0))) {
                 for (int i = 1; i < list.size(); i++) {
-                    set.add(list.get(i));
+                    set.add((DefaultEdge) list.get(i));
                 }
                 return set;
             }
@@ -269,4 +267,6 @@ public class CustomUndirectedWeightGraphAdapter<K, V> extends AbstractUndirected
     private void setWght(DefaultEdge defaultEdge, double v){
         defaultEdge.setWeight((long) v);
     }
+
+
 }
